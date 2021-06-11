@@ -39,6 +39,13 @@ export default {
         labels: this.xLabels,
         datasets: this.chartDatasets,
       },
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
     });
   },
   watch: {
@@ -52,3 +59,11 @@ export default {
 };
 
 </script>
+
+<style lang="scss" scoped>
+
+canvas {
+  margin: 2em 0;
+}
+
+</style>
