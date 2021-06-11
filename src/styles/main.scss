@@ -44,6 +44,10 @@ body {
 .chart {
   margin: 4em 0;
 
+  &__canvas {
+    margin: 2em 0;
+  }
+
   &__feature {
     padding: 0.5em;
     width: 100%;
@@ -55,7 +59,6 @@ body {
 
     &__text {
       margin: 0;
-      // padding: 0;
     }
   }
 }

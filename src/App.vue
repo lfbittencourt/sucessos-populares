@@ -20,17 +20,19 @@
     <section class="chart">
       <div class="container">
         <vue-slider
+          class="chart__slider"
+          tooltip="always"
+          v-model="yearRange"
           :min="minYear"
           :max="maxYear"
           :contained="true"
           :enable-cross="false"
           :lazy="true"
           :min-range="1"
-          tooltip="always"
-          v-model="yearRange"
-          class="chart__slider"
         ></vue-slider>
+
         <Chart
+          class="chart__canvas"
           :xLabels="currentYears"
           :datasets="datasets"
           :datasetLabels="datasetLabels"
@@ -44,7 +46,7 @@
             :key="index"
             :style="{
               backgroundColor: getFeatureBackgroundColor(index),
-              color: getContrastColor(featureColors[index]),
+              color: getFeatureTextColor(index),
             }"
           >
             <input
@@ -53,7 +55,7 @@
               :value="feature"
               v-model="selectedFeatures"
             >
-            <p class="chart__feature__text">{{ uppercase(feature) }}</p>
+            <p class="chart__feature__text">{{ translateFeatureLabel(feature) }}</p>
           </label>
         </div>
       </div>
@@ -69,6 +71,29 @@ import data from '@/data/database.json';
 import tinycolor from 'tinycolor2';
 import VueSlider from 'vue-slider-component';
 
+const datasetLabelsTranslations = {
+  mode: 'Modo',
+  energy: 'Energia',
+  danceability: 'Dançabilidade',
+  valence: 'Valência',
+  acousticness: 'Acústico',
+  liveness: 'Ao vivo',
+  speechiness: 'Falado',
+  instrumentalness: 'Instrumental',
+};
+
+// Special thanks to https://learnui.design/tools/data-color-picker.html
+const featureColors = [
+  '#003f5c',
+  '#2f4b7c',
+  '#665191',
+  '#a05195',
+  '#d45087',
+  '#f95d6a',
+  '#ff7c43',
+  '#ffa600',
+];
+
 export default {
   name: 'App',
   components: {
@@ -79,16 +104,6 @@ export default {
     return {
       yearRange: [],
       selectedFeatures: [],
-      featureColors: [ // Special thanks to https://learnui.design/tools/data-color-picker.html
-        '#003f5c',
-        '#2f4b7c',
-        '#665191',
-        '#a05195',
-        '#d45087',
-        '#f95d6a',
-        '#ff7c43',
-        '#ffa600',
-      ],
     };
   },
   computed: {
@@ -128,15 +143,15 @@ export default {
       );
     },
     datasetLabels() {
-      return this.selectedFeatures.map((column) => this.uppercase(column));
+      return this.selectedFeatures.map((column) => this.translateFeatureLabel(column));
     },
     datasetColors() {
-      return this.selectedFeaturesIndexes.map((index) => this.featureColors[index]);
+      return this.selectedFeaturesIndexes.map((index) => featureColors[index]);
     },
   },
   methods: {
     getFeatureBackgroundColor(index) {
-      const baseColor = this.featureColors[index];
+      const baseColor = featureColors[index];
 
       if (this.selectedFeatures.includes(this.availableFeatures[index])) {
         return baseColor;
@@ -144,15 +159,17 @@ export default {
 
       return tinycolor(baseColor).setAlpha(0.4).toString();
     },
-    getContrastColor(color) {
-      if (tinycolor(color).isDark()) {
+    getFeatureTextColor(index) {
+      const baseColor = featureColors[index];
+
+      if (tinycolor(baseColor).isDark()) {
         return '#ffffff';
       }
 
       return '#000000';
     },
-    uppercase(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+    translateFeatureLabel(featureLabel) {
+      return datasetLabelsTranslations[featureLabel];
     },
   },
   mounted() {

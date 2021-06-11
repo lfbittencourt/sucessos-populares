@@ -40,9 +40,20 @@ export default {
         datasets: this.chartDatasets,
       },
       options: {
+        datasets: {
+          line: {
+            tension: 0.4,
+          },
+        },
         plugins: {
           legend: {
             display: false,
+          },
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 1,
           },
         },
       },
@@ -59,11 +70,3 @@ export default {
 };
 
 </script>
-
-<style lang="scss" scoped>
-
-canvas {
-  margin: 2em 0;
-}
-
-</style>
