@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <input
-      type="number"
-      :min="minYear"
-      :max="relativeMaxYear"
-      v-model.number="startYear"
-    >
-    -
-    <input
-      type="number"
-      :min="relativeMinYear"
-      :max="maxYear"
-      v-model.number="endYear"
-    >
-    <Chart
-      :xLabels="currentYears"
-      :datasets="datasets"
-      :datasetLabels="datasetLabels"
-      :datasetColors="datasetColors"
-    />
-    <label v-for="feature in availableFeatures" :key="feature">
-      <input type="checkbox" :value="feature" v-model="selectedFeatures">
-      {{ uppercase(feature) }}
-    </label>
+
+    <header>
+      <h1>50 Anos de Sucessos Populares</h1>
+    </header>
+
+    <section>
+      <vue-slider
+        :min="minYear"
+        :max="maxYear"
+        :enable-cross="false"
+        :min-range="1"
+        tooltip="always"
+        v-model="yearRange"
+      ></vue-slider>
+      <Chart
+        :xLabels="currentYears"
+        :datasets="datasets"
+        :datasetLabels="datasetLabels"
+        :datasetColors="datasetColors"
+      />
+      <label v-for="feature in availableFeatures" :key="feature">
+        <input type="checkbox" :value="feature" v-model="selectedFeatures">
+        {{ uppercase(feature) }}
+      </label>
+    </section>
   </div>
 </template>
 
@@ -30,16 +32,17 @@
 
 import Chart from '@/components/Chart.vue';
 import data from '@/data/database.json';
+import VueSlider from 'vue-slider-component';
 
 export default {
   name: 'App',
   components: {
     Chart,
+    VueSlider,
   },
   data() {
     return {
-      startYear: null,
-      endYear: null,
+      yearRange: [],
       selectedFeatures: [],
       availableDatasetColors: [ // Special thanks to https://learnui.design/tools/data-color-picker.html
         '#003f5c',
@@ -65,11 +68,11 @@ export default {
     maxYear() {
       return Math.max(...data.index);
     },
-    relativeMinYear() {
-      return Math.max(this.minYear, this.startYear);
+    startYear() {
+      return this.yearRange[0];
     },
-    relativeMaxYear() {
-      return Math.min(this.maxYear, this.endYear);
+    endYear() {
+      return this.yearRange[1];
     },
     startYearIndex() {
       return data.index.indexOf(this.startYear);
@@ -104,8 +107,7 @@ export default {
     },
   },
   mounted() {
-    this.startYear = this.minYear;
-    this.endYear = this.maxYear;
+    this.yearRange = [this.minYear, this.maxYear];
     this.selectedFeatures = this.availableFeatures;
   },
 };
@@ -113,6 +115,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import 'vue-slider-component/theme/antd';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
