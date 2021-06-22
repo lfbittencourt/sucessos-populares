@@ -2,22 +2,22 @@
 
 ## Project setup
 ```
-yarn install
+npx yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+npx yarn serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build --dest docs
+npx yarn build --dest docs
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+npx yarn lint
 ```
 
 ### Customize configuration
