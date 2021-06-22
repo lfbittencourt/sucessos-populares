@@ -3,7 +3,7 @@
 
     <header class="header">
       <div class="container">
-        <h1 class="header__title">50 Anos de Sucessos Populares</h1>
+        <h1 class="header__title">{{ howManyYears }} de Sucessos Populares</h1>
       </div>
     </header>
 
@@ -138,6 +138,15 @@ export default {
     },
     currentYears() {
       return data.index.slice(this.startYearIndex, this.endYearIndex + 1);
+    },
+    howManyYears() {
+      const howManyYears = this.endYear - this.startYear;
+
+      if (howManyYears <= 1) {
+        return `${howManyYears} Ano`;
+      }
+
+      return `${howManyYears} Anos`;
     },
     currentData() {
       return data.data.slice(this.startYearIndex, this.endYearIndex + 1);
