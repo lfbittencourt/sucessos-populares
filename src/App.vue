@@ -7,9 +7,9 @@
       </div>
     </header>
 
-    <section>
+    <section class="lead">
       <div class="container">
-        <p class="lead">
+        <p class="lead__text">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt iure maxime eaque alias
           molestias blanditiis totam quisquam repudiandae libero excepturi officia obcaecati sit
           fugit optio, explicabo maiores qui facilis ab?
@@ -31,12 +31,18 @@
           :min-range="1"
         ></vue-slider>
 
+        <WordCloud
+          :colors="wordCloudColors"
+          :word-frequencies="wordFrequencies"
+          v-if="hasWordFrequencies"
+        />
+
         <Chart
           class="chart__canvas"
-          :xLabels="currentYears"
+          :x-labels="currentYears"
           :datasets="datasets"
-          :datasetLabels="datasetLabels"
-          :datasetColors="datasetColors"
+          :dataset-labels="datasetLabels"
+          :dataset-colors="datasetColors"
         />
 
         <div class="row">
@@ -67,6 +73,7 @@
 <script>
 
 import Chart from '@/components/Chart.vue';
+import WordCloud from '@/components/WordCloud.vue';
 import data from '@/data/database.json';
 import tinycolor from 'tinycolor2';
 import VueSlider from 'vue-slider-component';
@@ -99,6 +106,7 @@ export default {
   components: {
     Chart,
     VueSlider,
+    WordCloud,
   },
   data() {
     return {
@@ -108,7 +116,7 @@ export default {
   },
   computed: {
     availableFeatures() {
-      return data.columns;
+      return data.columns.slice(0, -1);
     },
     minYear() {
       return Math.min(...data.index);
@@ -147,6 +155,47 @@ export default {
     },
     datasetColors() {
       return this.selectedFeaturesIndexes.map((index) => featureColors[index]);
+    },
+    wordFrequencies() {
+      if (this.currentData.length === 0) {
+        return [];
+      }
+
+      const wordFrequenciesByYear = this.currentData.map((yearData) => yearData.slice(-1)[0]);
+      const howManyWords = 50;
+      const wordFrequencies = {};
+      const stopwords = [
+        '2018',
+        'i\'ll',
+        'i\'m',
+        'oh',
+        'pra',
+      ];
+
+      wordFrequenciesByYear.forEach((yearWordFrequencies) => {
+        Object.keys(yearWordFrequencies).forEach((word) => {
+          if (!stopwords.includes(word)) {
+            if (Object.prototype.hasOwnProperty.call(wordFrequencies, word)) {
+              wordFrequencies[word] += yearWordFrequencies[word];
+            } else {
+              wordFrequencies[word] = yearWordFrequencies[word];
+            }
+          }
+        });
+      });
+
+      const sortedFrequencies = Object.values(wordFrequencies).sort((a, b) => b - a);
+      const frequencyThreshold = sortedFrequencies[howManyWords - 1];
+
+      return Object.keys(wordFrequencies)
+        .filter((word) => wordFrequencies[word] >= frequencyThreshold)
+        .map((word) => [word, wordFrequencies[word]]);
+    },
+    hasWordFrequencies() {
+      return this.wordFrequencies.length > 0;
+    },
+    wordCloudColors() {
+      return featureColors;
     },
   },
   methods: {

@@ -38,7 +38,12 @@ body {
 }
 
 .lead {
-  font-size: 1.2em;
+  margin: 3em 0;
+
+  &__text {
+    font-size: 1.2em;
+    margin: 0;
+  }
 }
 
 .chart {
