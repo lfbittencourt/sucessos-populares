@@ -1,5 +1,5 @@
 <template>
-  <canvas width="1024" height="768"></canvas>
+  <canvas width="800" height="400"></canvas>
 </template>
 
 <script>
@@ -75,8 +75,10 @@ export default {
 <style lang="scss" scoped>
 
 canvas {
+  display: block;
   height: 400px;
-  width: 100%;
+  margin: 0 auto;
+  width: 800px;
 }
 
 </style>
