@@ -13,9 +13,10 @@
     <section class="lead">
       <div class="container">
         <p class="lead__text">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt iure maxime eaque alias
-          molestias blanditiis totam quisquam repudiandae libero excepturi officia obcaecati sit
-          fugit optio, explicabo maiores qui facilis ab?
+          Como as preferências musicais do brasileiro evoluíram através dos anos?
+          Eventos históricos são capazes de influenciar essas preferências?
+          Do que as músicas mais tocadas falam? Quais são seus temas?
+          Deslize pela linha do tempo abaixo e descubra.
         </p>
       </div>
     </section>
@@ -37,7 +38,7 @@
 
     <section class="chart">
       <div class="container">
-        <h2 class="chart__title">Características</h2>
+        <h2 class="chart__title">Anatomia dos hits</h2>
 
         <Chart
           class="chart__canvas"
@@ -71,7 +72,7 @@
 
     <section class="chart">
       <div class="container">
-        <h2 class="chart__title">Do que as músicas falam?</h2>
+        <h2 class="chart__title">Do que as músicas falam</h2>
 
         <WordCloud
           class="chart__canvas"
