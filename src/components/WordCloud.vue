@@ -1,5 +1,5 @@
 <template>
-  <canvas width="800" height="400"></canvas>
+  <canvas width="900" height="300"></canvas>
 </template>
 
 <script>
@@ -51,9 +51,9 @@ export default {
 
       WordCloud(this.$el, {
         list: this.normalizedWordFrequencies,
-        minSize: 15,
+        minSize: 10,
         rotateRatio: 0,
-        weightFactor: 300,
+        weightFactor: 200,
         color(_, weight) {
           return that.colors[Math.floor(weight * (that.colors.length - 1))];
         },
@@ -75,8 +75,8 @@ export default {
 <style lang="scss" scoped>
 
 canvas {
-  height: 400px;
-  width: 800px;
+  height: 300px;
+  width: 900px;
 }
 
 </style>

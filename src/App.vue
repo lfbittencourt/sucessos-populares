@@ -208,7 +208,7 @@ export default {
       }
 
       const wordFrequenciesByYear = this.currentData.map((yearData) => yearData.slice(-1)[0]);
-      const howManyWords = 50;
+      const howManyWords = 100;
       const wordFrequencies = {};
       const stopwords = [
         '2018',
