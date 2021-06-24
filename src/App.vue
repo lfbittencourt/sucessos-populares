@@ -3,7 +3,10 @@
 
     <header class="header">
       <div class="container">
-        <h1 class="header__title">{{ howManyYears }} de Sucessos Populares</h1>
+        <h1 class="header__title">
+          {{ howManyYears }} de Sucessos Populares
+          ({{ startYear }}-{{ endYear }})
+        </h1>
       </div>
     </header>
 
@@ -20,7 +23,6 @@
     <section class="chart">
       <div class="container">
         <vue-slider
-          class="chart__slider"
           tooltip="always"
           v-model="yearRange"
           :min="minYear"
@@ -30,12 +32,12 @@
           :lazy="true"
           :min-range="1"
         ></vue-slider>
+      </div>
+    </section>
 
-        <WordCloud
-          :colors="wordCloudColors"
-          :word-frequencies="wordFrequencies"
-          v-if="hasWordFrequencies"
-        />
+    <section class="chart">
+      <div class="container">
+        <h2 class="chart__title">Características</h2>
 
         <Chart
           class="chart__canvas"
@@ -64,6 +66,19 @@
             <p class="chart__feature__text">{{ translateFeatureLabel(feature) }}</p>
           </label>
         </div>
+      </div>
+    </section>
+
+    <section class="chart">
+      <div class="container">
+        <h2 class="chart__title">Do que as músicas falam?</h2>
+
+        <WordCloud
+          class="chart__canvas"
+          :colors="wordCloudColors"
+          :word-frequencies="wordFrequencies"
+          v-if="hasWordFrequencies"
+        />
       </div>
     </section>
 

@@ -30,6 +30,9 @@ export default {
       }));
     },
   },
+  created() {
+    [Chart.defaults.color] = this.datasetColors;
+  },
   mounted() {
     const ctx = this.$el.getContext('2d');
 
