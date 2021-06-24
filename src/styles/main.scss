@@ -1,5 +1,11 @@
 $color-primary: #003f5c;
 
+@mixin title {
+  font-weight: normal;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 *,
 *::before,
 *::after {
@@ -22,12 +28,11 @@ body {
   z-index: 6;
 
   &__title {
+    @include title;
+
     color: #fff;
-    font-weight: normal;
     letter-spacing: 0.05em;
-    margin: 0;
     text-align: center;
-    text-transform: uppercase;
   }
 }
 
@@ -55,10 +60,9 @@ body {
   margin: 3em 0;
 
   &__title {
-    font-weight: normal;
+    @include title;
+
     letter-spacing: 0.025em;
-    margin: 0;
-    text-transform: uppercase;
   }
 
   &__canvas {
@@ -78,6 +82,33 @@ body {
 
     &__text {
       margin: 0;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    margin-top: 2em;
+
+    &__card {
+      background-color: rgba($color: $color-primary, $alpha: 0.05);
+      border-radius: 0.25em;
+      border: 1px solid rgba($color: $color-primary, $alpha: 0.5);
+      padding: 1em;
+      width: 100%;
+
+      & + & {
+        margin-left: 1em;
+      }
+
+      &__title {
+        @include title;
+      }
+
+      &__big-number {
+        font-weight: bold;
+        font-size: 4em;
+        margin: 0;
+      }
     }
   }
 }

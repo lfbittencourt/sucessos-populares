@@ -83,6 +83,27 @@
       </div>
     </section>
 
+    <section class="chart">
+      <div class="container">
+        <h2 class="chart__title">15 minutos de fama</h2>
+
+        <div class="chart__cards">
+          <div class="chart__cards__card">
+            <h3 class="chart__cards__card__title">Duração média das músicas</h3>
+            <p class="chart__cards__card__big-number">3:20</p>
+          </div>
+          <div class="chart__cards__card">
+            <h3 class="chart__cards__card__title">Música mais curta</h3>
+            <p class="chart__cards__card__big-number">1:20</p>
+          </div>
+          <div class="chart__cards__card">
+            <h3 class="chart__cards__card__title">Música mais longa</h3>
+            <p class="chart__cards__card__big-number">13:20</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
