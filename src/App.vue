@@ -153,7 +153,7 @@ export default {
   },
   computed: {
     availableFeatures() {
-      return data.columns.slice(0, -1);
+      return data.columns.slice(0, -4).map((column) => column[0]);
     },
     minYear() {
       return Math.min(...data.index);
