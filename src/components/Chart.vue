@@ -54,6 +54,18 @@ export default {
           y: {
             min: 0,
             max: 1,
+            position: 'left',
+            ticks: {
+              callback: (value) => `${value * 100}%`,
+            },
+          },
+          y1: {
+            min: 0,
+            max: 1,
+            position: 'right',
+            ticks: {
+              callback: (value) => `${value * 100}%`,
+            },
           },
         },
       },
