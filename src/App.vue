@@ -57,6 +57,8 @@
               backgroundColor: getFeatureBackgroundColor(index),
               color: getFeatureTextColor(index),
             }"
+            :content="featureDescriptions[index]"
+            v-tippy
           >
             <input
               class="chart__feature__checkbox"
@@ -149,6 +151,16 @@ export default {
     return {
       yearRange: [],
       selectedFeatures: [],
+      featureDescriptions: [
+        'Modo da música. 1 para maior e 0 para menor',
+        'O quanto a música é rápida, alta e barulhenta',
+        'O quanto a música é adequada para dançar',
+        'Medida de positividade transmitida pela faixa',
+        'Mais violão, menos guitarra',
+        'Detecta a presença de audiência na gravação',
+        'Detecta a presença de palavras faladas (ex: rap)',
+        'Prediz quando uma música não contém vocais',
+      ],
     };
   },
   computed: {
