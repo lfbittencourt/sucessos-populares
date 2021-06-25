@@ -90,15 +90,15 @@
         <div class="chart__cards">
           <div class="chart__cards__card">
             <h3 class="chart__cards__card__title">Duração média das músicas</h3>
-            <p class="chart__cards__card__big-number">3:20</p>
+            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMean) }}</p>
           </div>
           <div class="chart__cards__card">
             <h3 class="chart__cards__card__title">Música mais curta</h3>
-            <p class="chart__cards__card__big-number">1:20</p>
+            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMin) }}</p>
           </div>
           <div class="chart__cards__card">
             <h3 class="chart__cards__card__title">Música mais longa</h3>
-            <p class="chart__cards__card__big-number">13:20</p>
+            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMax) }}</p>
           </div>
         </div>
       </div>
@@ -243,6 +243,34 @@ export default {
     wordCloudColors() {
       return featureColors;
     },
+    durationMean() {
+      if (this.currentData.length === 0) {
+        return 0;
+      }
+
+      const durationMeans = this.currentData.map((yearData) => yearData[yearData.length - 4]);
+      const durationMeansSum = durationMeans.reduce((a, b) => a + b, 0);
+
+      return durationMeansSum / durationMeans.length;
+    },
+    durationMin() {
+      if (this.currentData.length === 0) {
+        return 0;
+      }
+
+      const durationMins = this.currentData.map((yearData) => yearData[yearData.length - 3]);
+
+      return Math.min(...durationMins);
+    },
+    durationMax() {
+      if (this.currentData.length === 0) {
+        return 0;
+      }
+
+      const durationMaxs = this.currentData.map((yearData) => yearData[yearData.length - 2]);
+
+      return Math.max(...durationMaxs);
+    },
   },
   methods: {
     getFeatureBackgroundColor(index) {
@@ -265,6 +293,18 @@ export default {
     },
     translateFeatureLabel(featureLabel) {
       return datasetLabelsTranslations[featureLabel];
+    },
+    msToMinutesSeconds(ms) {
+      const seconds = ms / 1000;
+      const minutesPart = Math.floor(seconds / 60);
+      const secondsPart = Math.round(seconds % 60);
+      const secondsFormatter = new Intl.NumberFormat('pt-BR', {
+        minimumIntegerDigits: 2,
+      });
+
+      const formattedSecondsPart = secondsFormatter.format(secondsPart);
+
+      return `${minutesPart}:${formattedSecondsPart}`;
     },
   },
   mounted() {
