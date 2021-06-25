@@ -238,17 +238,11 @@ export default {
       const wordFrequenciesByYear = this.currentData.map((yearData) => yearData.slice(-1)[0]);
       const howManyWords = 100;
       const wordFrequencies = {};
-      const stopwords = [
-        '2018',
-        'i\'ll',
-        'i\'m',
-        'oh',
-        'pra',
-      ];
+      const wordFilter = /^(\d+)$/;
 
       wordFrequenciesByYear.forEach((yearWordFrequencies) => {
         Object.keys(yearWordFrequencies).forEach((word) => {
-          if (!stopwords.includes(word)) {
+          if (!wordFilter.test(word)) {
             if (Object.prototype.hasOwnProperty.call(wordFrequencies, word)) {
               wordFrequencies[word] += yearWordFrequencies[word];
             } else {
