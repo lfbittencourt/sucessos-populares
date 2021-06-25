@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <header class="header">
       <div class="container">
         <h1 class="header__title">
@@ -24,21 +23,23 @@
     <section class="chart">
       <div class="container">
         <vue-slider
-          tooltip="always"
           v-model="yearRange"
+          tooltip="always"
           :min="minYear"
           :max="maxYear"
           :contained="true"
           :enable-cross="false"
           :lazy="true"
           :min-range="1"
-        ></vue-slider>
+        />
       </div>
     </section>
 
     <section class="chart">
       <div class="container">
-        <h2 class="chart__title">Anatomia dos hits</h2>
+        <h2 class="chart__title">
+          Anatomia dos hits
+        </h2>
 
         <Chart
           class="chart__canvas"
@@ -51,20 +52,20 @@
         <div class="row">
           <label
             v-for="(feature, index) in availableFeatures"
-            class="chart__feature"
             :key="index"
+            v-tippy
+            class="chart__feature"
             :style="{
               backgroundColor: getFeatureBackgroundColor(index),
               color: getFeatureTextColor(index),
             }"
             :content="featureDescriptions[index]"
-            v-tippy
           >
             <input
+              v-model="selectedFeatures"
               class="chart__feature__checkbox"
               type="checkbox"
               :value="feature"
-              v-model="selectedFeatures"
             >
             <p class="chart__feature__text">{{ translateFeatureLabel(feature) }}</p>
           </label>
@@ -74,38 +75,53 @@
 
     <section class="chart">
       <div class="container">
-        <h2 class="chart__title">Do que as músicas falam</h2>
+        <h2 class="chart__title">
+          Do que as músicas falam
+        </h2>
 
         <WordCloud
+          v-if="hasWordFrequencies"
           class="chart__canvas"
           :colors="wordCloudColors"
           :word-frequencies="wordFrequencies"
-          v-if="hasWordFrequencies"
         />
       </div>
     </section>
 
     <section class="chart">
       <div class="container">
-        <h2 class="chart__title">15 minutos de fama</h2>
+        <h2 class="chart__title">
+          15 minutos de fama
+        </h2>
 
         <div class="chart__cards">
           <div class="chart__cards__card">
-            <h3 class="chart__cards__card__title">Duração média das músicas</h3>
-            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMean) }}</p>
+            <h3 class="chart__cards__card__title">
+              Duração média das músicas
+            </h3>
+            <p class="chart__cards__card__big-number">
+              {{ msToMinutesSeconds(durationMean) }}
+            </p>
           </div>
           <div class="chart__cards__card">
-            <h3 class="chart__cards__card__title">Música mais curta</h3>
-            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMin) }}</p>
+            <h3 class="chart__cards__card__title">
+              Música mais curta
+            </h3>
+            <p class="chart__cards__card__big-number">
+              {{ msToMinutesSeconds(durationMin) }}
+            </p>
           </div>
           <div class="chart__cards__card">
-            <h3 class="chart__cards__card__title">Música mais longa</h3>
-            <p class="chart__cards__card__big-number">{{ msToMinutesSeconds(durationMax) }}</p>
+            <h3 class="chart__cards__card__title">
+              Música mais longa
+            </h3>
+            <p class="chart__cards__card__big-number">
+              {{ msToMinutesSeconds(durationMax) }}
+            </p>
           </div>
         </div>
       </div>
     </section>
-
   </div>
 </template>
 
@@ -284,6 +300,10 @@ export default {
       return Math.max(...durationMaxs);
     },
   },
+  mounted() {
+    this.yearRange = [this.minYear, this.maxYear];
+    this.selectedFeatures = this.availableFeatures;
+  },
   methods: {
     getFeatureBackgroundColor(index) {
       const baseColor = featureColors[index];
@@ -318,10 +338,6 @@ export default {
 
       return `${minutesPart}:${formattedSecondsPart}`;
     },
-  },
-  mounted() {
-    this.yearRange = [this.minYear, this.maxYear];
-    this.selectedFeatures = this.availableFeatures;
   },
 };
 

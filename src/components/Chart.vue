@@ -1,5 +1,8 @@
 <template>
-  <canvas width="400" height="100"></canvas>
+  <canvas
+    width="400"
+    height="100"
+  />
 </template>
 
 <script>
@@ -11,10 +14,30 @@ Chart.register(...registerables);
 export default {
   name: 'Chart',
   props: {
-    xLabels: Array,
-    datasets: Array,
-    datasetLabels: Array,
-    datasetColors: Array,
+    xLabels: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    datasets: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    datasetLabels: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    datasetColors: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
   data() {
     return {
@@ -28,6 +51,14 @@ export default {
         borderColor: this.datasetColors[index],
         data,
       }));
+    },
+  },
+  watch: {
+    datasets() {
+      this.chart.data.labels = this.xLabels;
+      this.chart.data.datasets = this.chartDatasets;
+
+      this.chart.update();
     },
   },
   created() {
@@ -73,14 +104,6 @@ export default {
         },
       },
     });
-  },
-  watch: {
-    datasets() {
-      this.chart.data.labels = this.xLabels;
-      this.chart.data.datasets = this.chartDatasets;
-
-      this.chart.update();
-    },
   },
 };
 

@@ -1,5 +1,8 @@
 <template>
-  <canvas width="900" height="300"></canvas>
+  <canvas
+    width="900"
+    height="300"
+  />
 </template>
 
 <script>
@@ -42,6 +45,14 @@ export default {
       });
     },
   },
+  watch: {
+    wordFrequencies() {
+      this.drawWordCloud();
+    },
+  },
+  mounted() {
+    this.drawWordCloud();
+  },
   methods: {
     normalizeFrequency(frequency) {
       return (frequency - this.minFrequency) / this.frequencyInterval;
@@ -58,14 +69,6 @@ export default {
           return that.colors[Math.floor(weight * (that.colors.length - 1))];
         },
       });
-    },
-  },
-  mounted() {
-    this.drawWordCloud();
-  },
-  watch: {
-    wordFrequencies() {
-      this.drawWordCloud();
     },
   },
 };
